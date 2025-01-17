@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class AdaptivePlay extends Player {
@@ -66,12 +67,13 @@ public class AdaptivePlay extends Player {
      **/
     private int[] patternSearch(int[] arr) {
         int n = arr.length;
-
+        int start = 0;
+        ArrayList<int[]> patterns = new ArrayList<>();
         // The shortest possible pattern length would be one
         // The longest possible pattern length would be half of the length
-        for (int patternLength = 1; patternLength <= n / 2; patternLength++) {
+        for (int patternLength = 1; patternLength <= (n - start) / 2; patternLength++) {
             boolean isValid = true;
-            for (int j = 0; j < n - patternLength; j++) {
+            for (int j = start; j < n - patternLength; j++) {
                 if (arr[j] != arr[j + patternLength]) {
                     isValid = false;
                     break;
@@ -79,9 +81,13 @@ public class AdaptivePlay extends Player {
             }
 
             if (isValid) {
-                return Arrays.copyOfRange(arr, 0, patternLength);
+                patterns.add(Arrays.copyOfRange(arr, start, start + patternLength));
+                start += patternLength;
+                break;
             }
+            start++;
         }
-        return null;
+        System.out.println(patterns.isEmpty() ? null : Arrays.toString(patterns.getLast()));
+        return patterns.isEmpty() ? null : patterns.getLast();
     }
 }
