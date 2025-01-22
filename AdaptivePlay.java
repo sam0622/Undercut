@@ -1,17 +1,18 @@
-import java.util.ArrayList;
+import java.util.Random;
 import java.util.Arrays;
 
 public class AdaptivePlay extends Player {
-
+    Random rand = new Random();
     private int[] identifiedPattern;
     private int[] trimmedOpHistory;
     private int roundsPlayed;
-
+    private int count;
     public AdaptivePlay(String name, int rounds) {
         super(name, rounds);
         this.identifiedPattern = null;
         this.trimmedOpHistory = null;
         this.roundsPlayed = 0;
+        count = 0;
     }
 
     /**
@@ -32,13 +33,24 @@ public class AdaptivePlay extends Player {
      */
     @Override
     public int play() {
+        int play = calculateIdealPlay();
         if (this.roundsPlayed > 1) {
             this.trimmedOpHistory = Arrays.copyOfRange(this.opHistory, 1, this.roundsPlayed);
             this.identifiedPattern = patternSearch(this.trimmedOpHistory);
-        }
+            if (this.identifiedPattern == null) {
+                for (int i = 1; i < this.roundsPlayed; i++) {
+                    this.trimmedOpHistory = Arrays.copyOfRange(opHistory, i, this.roundsPlayed);
+                    this.identifiedPattern = patternSearch(this.trimmedOpHistory);
+                    if (this.identifiedPattern != null) {
+                        break;
+                    }
 
-        this.roundsPlayed++;
-        return calculateIdealPlay();
+                }
+
+            }
+        }
+        roundsPlayed++;
+        return play;
     }
 
     /**
@@ -47,17 +59,17 @@ public class AdaptivePlay extends Player {
      * @return the number to be played
      */
     private int calculateIdealPlay() {
-        if (this.identifiedPattern == null) {
-            return (int) (Math.random() * 6) + 2;
+        if (this.identifiedPattern == null || this.roundsPlayed < 3) {
+            return rand.nextInt(4, 8);
         }
-        int p = (this.roundsPlayed + 2) % this.identifiedPattern.length; // Goes to array index based on rounds
-        return this.identifiedPattern[p] - 1;
+
+        int i = this.roundsPlayed % this.identifiedPattern.length;
+        int r = this.identifiedPattern[i];
+        return r - ;
     }
 
     /**
      * Uses a brute-force pattern matching algorithm to find patterns
-     * The basic principle is that if you're searching for 3 long patterns in a 9 long array,
-     * You can check if the 3 spaces after the end of the pattern are the same as the pattern
      *
      * @param arr The array to search
      * @return the pattern identified, will return null if no patterns are found
@@ -67,27 +79,21 @@ public class AdaptivePlay extends Player {
      **/
     private int[] patternSearch(int[] arr) {
         int n = arr.length;
-        int start = 0;
-        ArrayList<int[]> patterns = new ArrayList<>();
+
         // The shortest possible pattern length would be one
         // The longest possible pattern length would be half of the length
-        for (int patternLength = 1; patternLength <= (n - start) / 2; patternLength++) {
+        for (int patternLength = 1; patternLength <= n / 2; patternLength++) {
             boolean isValid = true;
-            for (int j = start; j < n - patternLength; j++) {
+            for (int j = 0; j < n - patternLength; j++) {
                 if (arr[j] != arr[j + patternLength]) {
                     isValid = false;
                     break;
                 }
             }
-
             if (isValid) {
-                patterns.add(Arrays.copyOfRange(arr, start, start + patternLength));
-                start += patternLength;
-                break;
+                return Arrays.copyOfRange(arr, 0, patternLength);
             }
-            start++;
         }
-        System.out.println(patterns.isEmpty() ? null : Arrays.toString(patterns.getLast()));
-        return patterns.isEmpty() ? null : patterns.getLast();
+        return null;
     }
 }
