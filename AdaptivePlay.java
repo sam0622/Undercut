@@ -6,13 +6,11 @@ public class AdaptivePlay extends Player {
     private int[] identifiedPattern;
     private int[] trimmedOpHistory;
     private int roundsPlayed;
-    private int count;
     public AdaptivePlay(String name, int rounds) {
         super(name, rounds);
         this.identifiedPattern = null;
         this.trimmedOpHistory = null;
         this.roundsPlayed = 0;
-        count = 0;
     }
 
     /**
@@ -54,7 +52,7 @@ public class AdaptivePlay extends Player {
     }
 
     /**
-     * If a pattern is identified, it plays the next number in line, minus 1. Returns random from 4 to 6 otherwise
+     * If a pattern is identified, it plays the expected, minus 1. Returns random from 4 to 6 otherwise
      *
      * @return the number to be played
      */
