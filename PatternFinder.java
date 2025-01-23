@@ -1,12 +1,12 @@
 import java.util.Random;
 import java.util.Arrays;
 
-public class AdaptivePlay extends Player {
+public class PatternFinder extends Player {
     Random rand = new Random();
     private int[] identifiedPattern;
     private int[] trimmedOpHistory;
     private int roundsPlayed;
-    public AdaptivePlay(String name, int rounds) {
+    public PatternFinder(String name, int rounds) {
         super(name, rounds);
         this.identifiedPattern = null;
         this.trimmedOpHistory = null;
@@ -36,7 +36,7 @@ public class AdaptivePlay extends Player {
             this.trimmedOpHistory = Arrays.copyOfRange(this.opHistory, 1, this.roundsPlayed);
             this.identifiedPattern = patternSearch(this.trimmedOpHistory);
             if (this.identifiedPattern == null) {
-                for (int i = 1; i < this.roundsPlayed; i++) {
+                for (int i = 1; i < this.roundsPlayed; i++) { // Trims down the history until pattern is found
                     this.trimmedOpHistory = Arrays.copyOfRange(opHistory, i, this.roundsPlayed);
                     this.identifiedPattern = patternSearch(this.trimmedOpHistory);
                     if (this.identifiedPattern != null) {

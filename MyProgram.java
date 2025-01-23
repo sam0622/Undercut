@@ -12,7 +12,7 @@ public class MyProgram {
 
     //p.add(new Player("Random 1", ROUNDS));
     //p.add(new Player("Random 2", ROUNDS));
-    p.add(new AdaptivePlay("AdaptivePlay", ROUNDS));
+    p.add(new PatternFinder("AdaptivePlay", ROUNDS));
     p.add(new FourToSix("FourToSix", ROUNDS));
     
     ArrayList<Integer> s = new ArrayList<Integer>();
