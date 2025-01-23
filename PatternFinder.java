@@ -1,11 +1,12 @@
-import java.util.Random;
 import java.util.Arrays;
+import java.util.Random;
 
 public class PatternFinder extends Player {
     Random rand = new Random();
     private int[] identifiedPattern;
     private int[] trimmedOpHistory;
     private int roundsPlayed;
+
     public PatternFinder(String name, int rounds) {
         super(name, rounds);
         this.identifiedPattern = null;
@@ -52,7 +53,7 @@ public class PatternFinder extends Player {
     }
 
     /**
-     * If a pattern is identified, it plays the expected, minus 1. Returns random from 4 to 6 otherwise
+     * If a pattern is identified, it plays the expected number minus 1. Returns random from 4 to 6 otherwise
      *
      * @return the number to be played
      */
@@ -60,10 +61,7 @@ public class PatternFinder extends Player {
         if (this.identifiedPattern == null || this.roundsPlayed < 3) {
             return rand.nextInt(4, 8);
         }
-
-        int i = (this.roundsPlayed - 1) % this.identifiedPattern.length;
-        int r = this.identifiedPattern[i];
-        return r - 1;
+        return this.identifiedPattern[(this.roundsPlayed - 1) % this.identifiedPattern.length] - 1;
     }
 
     /**
