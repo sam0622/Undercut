@@ -63,9 +63,9 @@ public class AdaptivePlay extends Player {
             return rand.nextInt(4, 8);
         }
 
-        int i = this.roundsPlayed % this.identifiedPattern.length;
+        int i = (this.roundsPlayed - 1) % this.identifiedPattern.length;
         int r = this.identifiedPattern[i];
-        return r - ;
+        return r - 1;
     }
 
     /**
