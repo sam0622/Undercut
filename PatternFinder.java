@@ -61,7 +61,8 @@ public class PatternFinder extends Player {
         if (this.identifiedPattern == null || this.roundsPlayed < 3) {
             return rand.nextInt(4, 8);
         }
-        return this.identifiedPattern[(this.roundsPlayed - 1) % this.identifiedPattern.length] - 1;
+        int p = this.identifiedPattern[(this.roundsPlayed - 1) % this.identifiedPattern.length];
+        return p == 1 ? 7 : p - 1;
     }
 
     /**

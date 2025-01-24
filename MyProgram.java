@@ -2,7 +2,7 @@ import java.util.*;
 
 public class MyProgram {
 
-  static final int ROUNDS = 200;
+  static final int ROUNDS = 500;
 
   static final int VERBOSE = 2;
 
